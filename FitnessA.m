@@ -24,15 +24,19 @@ dat.branch(var_br',:)=[];
 %vi_pham=0;
 dat.bus(:,5)=0;        % so ket noi trong cua nut
 for i=1:size(dat.branch,1)
-    dat.bus(dat.branch(i,2),5)=dat.bus(dat.branch(i,2),5)+1;
-    dat.bus(dat.branch(i,3),5)=dat.bus(dat.branch(i,3),5)+1;
+    start_bus=dat.branch(i,2);
+    end_bus=dat.branch(i,3);
+    dat.bus(start_bus,5)=dat.bus(start_bus,5)+1;
+    dat.bus(end_bus,5)=dat.bus(end_bus,5)+1;
 end
-k=find(dat.bus(:,5)==0);
-if ~isempty(k)
-    vi_pham=1;  % neu co thi bao da bi vi pham
+
+% kiem tra vi pham
+if CheckGraphConnected(dat) == 1
+    vi_pham = 0;
 else
-    vi_pham=0;
+    vi_pham = 1;
 end
+
 % them cong suat tac dung vao cac nut gan MFD.
 %dat.bus(var_gen1',3)=dat.bus(var_gen1',3)+var_gen3';
 dat.bus(:,6)=2;                % nut thong thuong 
